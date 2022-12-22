@@ -4,7 +4,6 @@
 import random
 import math
 
-
 class Entity:  # makes base class
     # variables and methods can't have the same names
     def __init__(self, name, health, attack):
