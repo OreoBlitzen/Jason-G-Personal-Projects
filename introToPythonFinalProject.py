@@ -27,7 +27,6 @@ class Entity:  # makes base class
     def attack(self, enemy):
         enemy.takeDamage(self.attackPower)
 
-
 class Boss(Entity):
     enraged = False
 
@@ -35,7 +34,6 @@ class Boss(Entity):
         self.attackPower = math.ceil(self.attackPower*1.5)
         self.enraged = True
         print(self.name, 'goes into a fury!')
-
 
 class Ninja(Entity):  # declares base player class
     def levelUp(self):
@@ -54,12 +52,10 @@ class Ninja(Entity):  # declares base player class
             self.isDefending = True
             print(self.name, 'is defending now')
 
-
 class Myrmidon(Ninja):  # declares swordsman class
     def levelUp(self):
         self.maxHealth += 15
         self.attackPower += 7
-
 
 class Cleric(Ninja):  # declares healer class
     # variables and methods can't have the same names
@@ -113,7 +109,6 @@ class Cleric(Ninja):  # declares healer class
                 self.heal(player1)
             elif (target == 'f' and player3.isAlive):
                 self.heal(player3)
-
 
 # initializes player(s) and first boss
 player1 = Myrmidon('Corrin', 100, 15)  # name, health, attack
