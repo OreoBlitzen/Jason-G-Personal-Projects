@@ -1,9 +1,10 @@
-# I made a simple text based rpg party combat game with 3 party members fighting one big boss
+# I made a simple text based rpg party combat game with 4 party members fighting one big boss
 # This game utilizes classes and oop in order to simplify the code
 # Combat has been optimized to feel like winning should be moderately difficult
 import random
 import math
 import os
+import tkinter
 
 class color:
    purple = '\033[95m'
@@ -207,6 +208,7 @@ boss = Boss('Anankos', random.randint(650, 750), random.randint(12, 17))
 alivePlayers = [player1, player2, player3, player4]
 alivePlayerNames = [player1.name, player2.name, player3.name, player4.name]
 os.system("")
+tkinter._test()
 # Runs fight until one side is fully downed
 while (alivePlayers and boss.isAlive):
     print('')
