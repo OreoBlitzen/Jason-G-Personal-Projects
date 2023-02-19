@@ -4,7 +4,7 @@
 import random
 import math
 import os
-import tkinter
+import pygame
 
 class color:
    purple = '\033[95m'
@@ -31,7 +31,7 @@ class Entity:  # makes base class
     def takeDamage(self, damage):
         if (self.isDefending):
             damage = math.floor(damage//2)
-        self.health -= damage
+        self.health = max(self.health-damage,0)
         print('     ',self.name, "took", damage, "damage.", self.name,
               "is now at", self.health, "/", self.maxHealth)
         if (self.health <= 0):
@@ -208,21 +208,52 @@ boss = Boss('Anankos', random.randint(650, 750), random.randint(12, 17))
 alivePlayers = [player1, player2, player3, player4]
 alivePlayerNames = [player1.name, player2.name, player3.name, player4.name]
 os.system("")
-tkinter._test()
+pygame.init()
+pygame.font.init()
+window_width = 1080
+window_height = 720
+background = (0,0,0)
+game_window = pygame.display.set_mode((1080, 720))
+pygame.display.set_caption("Fire Emblem Fates")
+background_image = pygame.image.load(r"C:\Users\Jason\Documents\GitHub Personal Projects\Jason-G-Personal-Projects\Simple_RPG_Game\Full_Portrait_Corrin(M).png")
+font = pygame.font.Font(None, 36)
+game_window.blit(background_image, (0, 0))
+def update_stats():
+    game_window.fill((0,0,0))
+    game_window.blit(background_image, (0, 0))
+    player1_health_text = font.render(f"{player1.name} Health: {player1.health}", True, (255, 255, 255))
+    player2_health_text = font.render(f"{player2.name} Health: {player2.health} Mana: {player2.mana}", True, (255, 255, 255))
+    player3_health_text = font.render(f"{player3.name} Health: {player3.health}", True, (255, 255, 255))
+    player4_health_text = font.render(f"{player4.name} Health: {player4.health} Mana: {player4.mana}", True, (255, 255, 255))
+    dragon_health_text = font.render(f"Dragon Health: {math.ceil(boss.health/boss.maxHealth*100)}%", True, (255, 255, 255))
+    game_window.blit(player1_health_text, (20, 20))
+    game_window.blit(player2_health_text, (20, 60))
+    game_window.blit(player3_health_text, (20, 100))
+    game_window.blit(player4_health_text, (20, 140))
+    game_window.blit(dragon_health_text, (window_width - dragon_health_text.get_width() - 20, 20))
+    pygame.display.update()
+update_stats()
 # Runs fight until one side is fully downed
 while (alivePlayers and boss.isAlive):
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            break
     print('')
     for i in alivePlayers:
         if(i.isAlive):
             if(type(i)==Cleric or type(i)==Mage):
                 i.manaRegen()
             i.playerAction(boss)
+            update_stats()
             if(boss.isAlive==False):
                 break
+    update_stats()
     if(boss.isAlive):        
         if (boss.health <= boss.maxHealth*.25 and boss.enraged == False):
             boss.enrage()
         boss.bossAction()
+    update_stats()
+pygame.quit()
 
 # States who wins at the end of the game
 if (boss.isAlive):
